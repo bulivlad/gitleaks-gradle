@@ -50,7 +50,7 @@ See the table for full available configuration
 | skip | Flag to enable/disable scanning | false | true/false |
 | failOnError | Flag indicating whether the gradle build should fail or not if the scan fails | false | true/false |
 | configFile | The path to the configuration file relative to the root folder | https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml | |
-| format | The format of the report | JSON | JSON/CSV/SARIF |
+| format | The format of the report | JSON | JSON/CSV/SARIF/HTML |
 | runEnvironment | Configures in which environment the scan should run | DOCKER | DOCKER/NATIVE |
 | vault | Vault configuration block | | |
 || **Option** | **Description** | **Default value** | **Available options** |
