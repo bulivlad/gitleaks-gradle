@@ -33,6 +33,9 @@ abstract class Scanner {
         if (format == Format.SARIF && !pathToCheck.endsWith(Format.SARIF.fileExtension)) {
             return new File(outFile, "git-leaks-report.sarif")
         }
+        if (format == Format.HTML && !pathToCheck.endsWith(Format.HTML.fileExtension)) {
+            return new File(outFile, "git-leaks-report.html")
+        }
 
         return outFile
     }
@@ -44,7 +47,7 @@ abstract class Scanner {
         }
     }
 
-    public enum Command {
+    enum Command {
         DETECT("detect"),
         PROTECT("protect")
 

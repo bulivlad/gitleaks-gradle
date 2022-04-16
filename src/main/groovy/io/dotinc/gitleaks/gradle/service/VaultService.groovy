@@ -1,6 +1,5 @@
 package io.dotinc.gitleaks.gradle.service
 
-
 import groovy.yaml.YamlSlurper
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
@@ -43,7 +42,7 @@ class VaultService {
         return ys.parseText(sout.toString())
     }
 
-    public String getValue(String key) {
+    String getValue(String key) {
         if (decrypted == null) {
             LOGGER.error("Trying to retrieve key ${key} from vault before initializing it. Please consider declaring vault block in your gradle file!")
             return null

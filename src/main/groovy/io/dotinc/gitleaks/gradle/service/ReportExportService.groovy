@@ -1,7 +1,7 @@
 package io.dotinc.gitleaks.gradle.service
 
-import io.dotinc.gitleaks.gradle.extension.ReportExportExtension.AuthType
 import io.dotinc.gitleaks.gradle.extension.GitLeaksExtension.Format
+import io.dotinc.gitleaks.gradle.extension.ReportExportExtension.AuthType
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,8 +10,6 @@ import wslite.http.auth.HTTPAuthorization
 import wslite.http.auth.HTTPBasicAuthorization
 import wslite.rest.ContentType
 import wslite.rest.RESTClient
-
-import java.util.stream.Stream
 
 class ReportExportService {
     private static final Logger LOGGER = LoggerFactory.getLogger(VaultService.class);
@@ -51,7 +49,7 @@ class ReportExportService {
         }
     }
 
-    public void export(File content,  Format format) {
+    void export(File content, Format format) {
         LOGGER.info("Start exporting file ${content.getName()} with format ${format.toString()}.")
         try {
             LOGGER.debug("Start handling ${format} file.")

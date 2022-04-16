@@ -84,10 +84,11 @@ class GitLeaksExtension {
         return project.configure(export, configClosure)
     }
 
-    public enum Format {
+    enum Format {
         JSON(".json"),
         CSV(".csv"),
-        SARIF(".sarif")
+        SARIF(".sarif"),
+        HTML(".html")
 
         String fileExtension
 
@@ -96,7 +97,7 @@ class GitLeaksExtension {
         }
     }
 
-    public enum RunEnvironment {
+    enum RunEnvironment {
         DOCKER,
         NATIVE
     }

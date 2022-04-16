@@ -3,6 +3,7 @@ package io.dotinc.gitleaks.gradle.task
 import io.dotinc.gitleaks.gradle.extension.GitLeaksExtension.Format
 import io.dotinc.gitleaks.gradle.extension.GitLeaksExtension.RunEnvironment
 import io.dotinc.gitleaks.gradle.scanner.Scanner
+import io.dotinc.gitleaks.gradle.service.HtmlReportService
 import io.dotinc.gitleaks.gradle.service.ReportExportService
 import org.gradle.api.GradleException
 import org.gradle.api.tasks.TaskAction
@@ -33,6 +34,11 @@ abstract class AbstractTask extends ConfiguredTask {
                 throw new GradleException("Report output path should be inside project path!")
             }
             performScan(config.runEnvironment)
+
+            if (Format.HTML == config.format) {
+                handleHtmlReport(output)
+            }
+
             exportReport(output, config.format)
         } catch(Exception ex) {
             if (config.failOnError) {
@@ -43,7 +49,17 @@ abstract class AbstractTask extends ConfiguredTask {
         }
     }
 
-    void exportReport(File output, Format format) {
+    private void handleHtmlReport(File output) {
+        def outputPath = output.getAbsolutePath()
+        def jsonReportFile = Scanner.getReportFile(outputPath, Format.JSON)
+        def htmlReportService = new HtmlReportService(project)
+        def htmlText = htmlReportService.generateReportFromJSON(jsonReportFile)
+
+        jsonReportFile.text = htmlText
+        jsonReportFile.renameTo(jsonReportFile.path.replace(Format.JSON.fileExtension, Format.HTML.fileExtension))
+    }
+
+    private void exportReport(File output, Format format) {
         if (null == export.url) {
             return
         }

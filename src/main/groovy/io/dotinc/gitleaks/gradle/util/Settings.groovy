@@ -10,21 +10,21 @@ import org.slf4j.LoggerFactory
  * @author vladbulimac on 14.04.2022.
  */
 
-public final class Settings {
+final class Settings {
     private static final Logger LOGGER = LoggerFactory.getLogger(Settings.class)
     private static final String ARRAY_SEP = ",";
     private Properties props = null
     private ObjectMapper objectMapper = new ObjectMapper();
 
-    public Settings() {
+    Settings() {
         this.props = new Properties();
     }
 
-    public Settings(Properties properties) {
+    Settings(Properties properties) {
         this.props = properties
     }
 
-    public static final class KEYS {
+    static final class KEYS {
         public static final String SKIP = "gitleaks.skip"
         public static final String FAIL_ON_ERROR = "gitleaks.fail_on_error"
         public static final String CONFIG_FILE = "gitleaks.config_file"
@@ -34,7 +34,7 @@ public final class Settings {
         public static final String RUN_ENVIRONMENT = "gitleaks.run_environment"
     }
 
-    public void setString(final String key, final String value) {
+    void setString(final String key, final String value) {
         props.setProperty(key, value)
         LOGGER.debug("Setting: {}='{}'", key, getPrintableValue(key, value))
     }
@@ -45,7 +45,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setStringIfNotNull(final String key, final String value) {
+    void setStringIfNotNull(final String key, final String value) {
         if (null != value) {
             setString(key, value)
         }
@@ -57,7 +57,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setStringIfNotEmpty(final String key, final String value) {
+    void setStringIfNotEmpty(final String key, final String value) {
         if (null != value && !value.isEmpty()) {
             setString(key, value)
         }
@@ -69,7 +69,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setArrayIfNotEmpty(final String key, final String[] value) {
+    void setArrayIfNotEmpty(final String key, final String[] value) {
         if (null != value && value.length > 0) {
             try {
                 setString(key, objectMapper.writeValueAsString(value))
@@ -85,7 +85,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setArrayIfNotEmpty(final String key, final List<String> value) {
+    void setArrayIfNotEmpty(final String key, final List<String> value) {
         if (null != value && !value.isEmpty()) {
             try {
                 setString(key, objectMapper.writeValueAsString(value))
@@ -101,7 +101,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setBoolean(final String key, boolean value) {
+    void setBoolean(final String key, boolean value) {
         setString(key, Boolean.toString(value))
     }
 
@@ -111,7 +111,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setBooleanIfNotNull(final String key, final Boolean value) {
+    void setBooleanIfNotNull(final String key, final Boolean value) {
         if (null != value) {
             setBoolean(key, value)
         }
@@ -123,7 +123,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setFloat(final String key, final float value) {
+    void setFloat(final String key, final float value) {
         setString(key, Float.toString(value))
     }
 
@@ -133,7 +133,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setInt(final String key, final int value) {
+    void setInt(final String key, final int value) {
         props.setProperty(key, String.valueOf(value))
         LOGGER.debug("Setting: {}='{}'", key, value)
     }
@@ -144,7 +144,7 @@ public final class Settings {
      * @param key the key for the property
      * @param value the value for the property
      */
-    public void setIntIfNotNull(final String key, final Integer value) {
+    void setIntIfNotNull(final String key, final Integer value) {
         if (null != value) {
             setInt(key, value)
         }
@@ -161,7 +161,7 @@ public final class Settings {
      * @param defaultValue the default value for the requested property
      * @return the property from the properties file
      */
-    public String getString(final String key, final String defaultValue) {
+    String getString(final String key, final String defaultValue) {
         return System.getProperty(key, props.getProperty(key, defaultValue))
     }
 
@@ -174,7 +174,7 @@ public final class Settings {
      * @param key the key to lookup within the properties file
      * @return the property from the properties file
      */
-    public String getString(final String key) {
+    String getString(final String key) {
         return System.getProperty(key, props.getProperty(key))
     }
 
@@ -187,7 +187,7 @@ public final class Settings {
      * {@link io.dotinc.gitleaks.gradle.util.Settings}.
      * @return the list or {@code null} if the key wasn't present.
      */
-    public String[] getArray(final String key) {
+    String[] getArray(final String key) {
         final String string = getString(key)
         if (string != null) {
             if (string.charAt(0) == ('{' as char) || string.charAt(0) == ('[' as char)) {
@@ -209,7 +209,7 @@ public final class Settings {
      *
      * @param key the property key to remove
      */
-    public void removeProperty(final String key) {
+    void removeProperty(final String key) {
         props.remove(key)
     }
 
@@ -223,7 +223,7 @@ public final class Settings {
      * @return the property from the properties file
      * if there is an error retrieving the setting
      */
-    public int getInt(final String key) {
+    int getInt(final String key) {
         try {
             return Integer.parseInt(getString(key))
         } catch (NumberFormatException ex) {
@@ -242,7 +242,7 @@ public final class Settings {
      * @return the property from the properties file or the defaultValue if the
      * property does not exist or cannot be converted to an integer
      */
-    public int getInt(final String key, int defaultValue) {
+    int getInt(final String key, int defaultValue) {
         int value
         try {
             value = Integer.parseInt(getString(key))
@@ -266,7 +266,7 @@ public final class Settings {
      * @return the property from the properties file
      * if there is an error retrieving the setting
      */
-    public long getLong(final String key) {
+    long getLong(final String key) {
         try {
             return Long.parseLong(getString(key))
         } catch (NumberFormatException ex) {
@@ -285,7 +285,7 @@ public final class Settings {
      * @return the property from the properties file
      * if there is an error retrieving the setting
      */
-    public boolean getBoolean(final String key) {
+    boolean getBoolean(final String key) {
         return Boolean.parseBoolean(getString(key))
     }
 
@@ -301,7 +301,7 @@ public final class Settings {
      * exist
      * @return the property from the properties file
      */
-    public boolean getBoolean(final String key, boolean defaultValue) {
+    boolean getBoolean(final String key, boolean defaultValue) {
         return Boolean.parseBoolean(getString(key, Boolean.toString(defaultValue)))
     }
 
@@ -317,7 +317,7 @@ public final class Settings {
      * exist
      * @return the property from the properties file
      */
-    public float getFloat(final String key, float defaultValue) {
+    float getFloat(final String key, float defaultValue) {
         float retValue = defaultValue
         try {
             retValue = Float.parseFloat(getString(key))
