@@ -10,11 +10,10 @@ import org.slf4j.LoggerFactory
  * @author vladbulimac on 14.04.2022.
  */
 
-class DockerScanner extends Scanner {
+final class DockerScanner extends Scanner {
     private static final Logger LOGGER = LoggerFactory.getLogger(DockerScanner.class);
 
     protected DockerScanner() {
-
     }
 
     protected void doScan(Command command, Settings settings) {
@@ -61,6 +60,9 @@ class DockerScanner extends Scanner {
         sb.append(" ")
 
         def format = Format.valueOf(settings.getString(Settings.KEYS.FORMAT))
+        if (format == Format.HTML) {
+            format = Format.JSON
+        }
 
         sb.append("/path/${settings.getString(Settings.KEYS.OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
         sb.append(" ")

@@ -46,10 +46,10 @@ class GitLeaksPlugin  implements Plugin<Project> {
     void checkGradleVersion(Project project) {
         if (project != null && MINIMUM_GRADLE_VERSION.compareTo(GradleVersion.current()) > 0) {
             if (project.plugins.contains("com.android.build.gradle.AppPlugin")) {
-                throw new GradleException("Detected ${GradleVersion.current()}; the dependency-check-gradle " +
+                throw new GradleException("Detected ${GradleVersion.current()}; the gitleaks-gradle " +
                         "plugin requires ${MINIMUM_GRADLE_VERSION} or higher when analyzing Android projects.")
             } else {
-                project.logger.warn("Detected ${GradleVersion.current()}; while the dependency-check-gradle " +
+                project.logger.warn("Detected ${GradleVersion.current()}; while the gitleaks-gradle " +
                         "plugin will work it is recommended that you upgrade to ${MINIMUM_GRADLE_VERSION} or higher.")
             }
         }

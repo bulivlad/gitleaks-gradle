@@ -1,6 +1,6 @@
 package io.dotinc.gitleaks.gradle.scanner
 
-import io.dotinc.gitleaks.gradle.extension.GitLeaksExtension
+import io.dotinc.gitleaks.gradle.extension.GitLeaksExtension.Format
 import io.dotinc.gitleaks.gradle.util.Settings
 import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
@@ -11,11 +11,10 @@ import org.slf4j.LoggerFactory
  * @author vladbulimac on 15.04.2022.
  */
 
-class NativeScanner extends Scanner {
+final class NativeScanner extends Scanner {
     private static final Logger LOGGER = LoggerFactory.getLogger(NativeScanner.class);
 
     protected NativeScanner() {
-
     }
 
     protected void doScan(Command command, Settings settings) {
@@ -57,7 +56,10 @@ class NativeScanner extends Scanner {
         sb.append("-r")
         sb.append(" ")
 
-        def format = GitLeaksExtension.Format.valueOf(settings.getString(Settings.KEYS.FORMAT))
+        def format = Format.valueOf(settings.getString(Settings.KEYS.FORMAT))
+        if (format == Format.HTML) {
+            format = Format.JSON
+        }
 
         sb.append("${settings.getString(Settings.KEYS.SOURCE_PATH)}/${settings.getString(Settings.KEYS.OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
         sb.append(" ")
