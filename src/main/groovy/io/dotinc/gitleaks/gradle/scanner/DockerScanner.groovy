@@ -6,6 +6,12 @@ import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.CONFIG_FILE
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.FORMAT
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.MASK_SENSITIVE_DATA
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.OUTPUT_DIRECTORY
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.SOURCE_PATH
+
 /**
  * @author vladbulimac on 14.04.2022.
  */
@@ -48,7 +54,7 @@ final class DockerScanner extends Scanner {
         def sb = new StringBuilder()
         sb.append("docker run")
         sb.append(" ")
-        sb.append("-v ${settings.getString(Settings.KEYS.SOURCE_PATH)}:/path")
+        sb.append("-v ${settings.getString(SOURCE_PATH)}:/path")
         sb.append(" ")
         sb.append("zricethezav/gitleaks:latest")
         sb.append(" ")
@@ -59,19 +65,25 @@ final class DockerScanner extends Scanner {
         sb.append("-r")
         sb.append(" ")
 
-        def format = Format.valueOf(settings.getString(Settings.KEYS.FORMAT))
+        def format = Format.valueOf(settings.getString(FORMAT))
         if (format == Format.HTML) {
             format = Format.JSON
         }
 
-        sb.append("/path/${settings.getString(Settings.KEYS.OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
+        sb.append("/path/${settings.getString(OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
         sb.append(" ")
         sb.append("-f ${format}")
 
-        def configFile = settings.getString(Settings.KEYS.CONFIG_FILE)
+        def configFile = settings.getString(CONFIG_FILE)
         if (StringUtils.isNotBlank(configFile)) {
             sb.append(" ")
             sb.append("-c /path/${configFile}")
+        }
+
+        def maskSensitiveData = settings.getBoolean(MASK_SENSITIVE_DATA)
+        if (maskSensitiveData) {
+            sb.append(" ")
+            sb.append("--redact")
         }
 
         sb.append(" ")

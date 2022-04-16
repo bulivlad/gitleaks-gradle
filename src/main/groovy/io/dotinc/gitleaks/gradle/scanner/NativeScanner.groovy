@@ -6,6 +6,12 @@ import org.apache.commons.lang3.StringUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.CONFIG_FILE
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.FORMAT
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.MASK_SENSITIVE_DATA
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.OUTPUT_DIRECTORY
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.SOURCE_PATH
+
 
 /**
  * @author vladbulimac on 15.04.2022.
@@ -51,24 +57,30 @@ final class NativeScanner extends Scanner {
         sb.append(" ")
         sb.append(command.command)
         sb.append(" ")
-        sb.append("--source=\"${settings.getString(Settings.KEYS.SOURCE_PATH)}\"")
+        sb.append("--source=\"${settings.getString(SOURCE_PATH)}\"")
         sb.append(" ")
         sb.append("-r")
         sb.append(" ")
 
-        def format = Format.valueOf(settings.getString(Settings.KEYS.FORMAT))
+        def format = Format.valueOf(settings.getString(FORMAT))
         if (format == Format.HTML) {
             format = Format.JSON
         }
 
-        sb.append("${settings.getString(Settings.KEYS.SOURCE_PATH)}/${settings.getString(Settings.KEYS.OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
+        sb.append("${settings.getString(SOURCE_PATH)}/${settings.getString(OUTPUT_DIRECTORY)}/git-leaks-report${format.fileExtension}")
         sb.append(" ")
         sb.append("-f ${format}")
 
-        def configFile = settings.getString(Settings.KEYS.CONFIG_FILE)
+        def configFile = settings.getString(CONFIG_FILE)
         if (StringUtils.isNotBlank(configFile)) {
             sb.append(" ")
-            sb.append("-c ${settings.getString(Settings.KEYS.SOURCE_PATH)}/${configFile}")
+            sb.append("-c ${settings.getString(SOURCE_PATH)}/${configFile}")
+        }
+
+        def maskSensitiveData = settings.getBoolean(MASK_SENSITIVE_DATA)
+        if (maskSensitiveData) {
+            sb.append(" ")
+            sb.append("--redact")
         }
 
         sb.append(" ")

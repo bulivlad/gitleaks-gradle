@@ -32,6 +32,7 @@ final class Settings {
         public static final String FORMAT = "gitleaks.format"
         public static final String OUTPUT_DIRECTORY = "gitleaks.output_directory"
         public static final String RUN_ENVIRONMENT = "gitleaks.run_environment"
+        public static final String MASK_SENSITIVE_DATA = "gitleaks.mask_sesitive_data"
     }
 
     void setString(final String key, final String value) {

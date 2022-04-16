@@ -50,6 +50,7 @@ class GitLeaksGradlePluginSpec extends Specification {
         project.gitLeaks.relativeSourcePath == project.rootDir.relativePath(project.projectDir)
         project.gitLeaks.format == GitLeaksExtension.Format.JSON
         project.gitLeaks.runEnvironment == GitLeaksExtension.RunEnvironment.DOCKER
+        project.gitLeaks.maskSensitiveData == true
         project.gitLeaks.vault.vaultPath == null
         project.gitLeaks.vault.vaultKeyFile == null
         project.gitLeaks.export.failOnError == false
@@ -72,6 +73,7 @@ class GitLeaksGradlePluginSpec extends Specification {
             relativeSourcePath = 'repo/specific-part/'
             format = 'CSV'
             runEnvironment = 'NATIVE'
+            maskSensitiveData = false
             vault {
                 vaultPath = '/home/user/vault.yml'
                 vaultKeyFile = '/home/user/password.sh'
@@ -97,6 +99,7 @@ class GitLeaksGradlePluginSpec extends Specification {
         project.gitLeaks.relativeSourcePath == 'repo/specific-part/'
         project.gitLeaks.format == GitLeaksExtension.Format.CSV
         project.gitLeaks.runEnvironment == GitLeaksExtension.RunEnvironment.NATIVE
+        project.gitLeaks.maskSensitiveData == false
         project.gitLeaks.vault.vaultPath == '/home/user/vault.yml'
         project.gitLeaks.vault.vaultKeyFile == '/home/user/password.sh'
         project.gitLeaks.export.failOnError == true
