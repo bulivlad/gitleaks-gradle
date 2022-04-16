@@ -52,6 +52,7 @@ See the table for full available configuration
 | configFile | The path to the configuration file relative to the root folder | https://github.com/zricethezav/gitleaks/blob/master/config/gitleaks.toml | |
 | format | The format of the report | JSON | JSON/CSV/SARIF/HTML |
 | runEnvironment | Configures in which environment the scan should run | DOCKER | DOCKER/NATIVE |
+| maskSensitiveData | Flag indicating whether the sensitive data should be masked in the report | true | true/false |
 | vault | Vault configuration block | | |
 || **Option** | **Description** | **Default value** | **Available options** |
 || vaultPath | The path to the vault file |||

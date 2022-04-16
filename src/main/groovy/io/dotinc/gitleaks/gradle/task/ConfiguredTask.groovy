@@ -7,6 +7,7 @@ import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.Internal
 
 import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.CONFIG_FILE
+import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.MASK_SENSITIVE_DATA
 import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.SKIP
 import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.FAIL_ON_ERROR
 import static io.dotinc.gitleaks.gradle.util.Settings.KEYS.FORMAT
@@ -40,6 +41,7 @@ abstract class ConfiguredTask extends DefaultTask {
         settings.setStringIfNotEmpty(FORMAT, config.format.toString())
         settings.setStringIfNotEmpty(OUTPUT_DIRECTORY, config.outputDirectory)
         settings.setStringIfNotEmpty(RUN_ENVIRONMENT, config.runEnvironment.toString())
+        settings.setBooleanIfNotNull(MASK_SENSITIVE_DATA, config.maskSensitiveData)
 
         configureVault(settings)
         configureExport(settings)

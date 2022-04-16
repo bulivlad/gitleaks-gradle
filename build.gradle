@@ -6,7 +6,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath "com.gradle.publish:plugin-publish-plugin:0.12.0"
+        classpath "com.gradle.publish:plugin-publish-plugin:0.21.0"
     }
 }
 
@@ -106,9 +106,9 @@ publishing {
     }
 }
 
-//signing {
-//    sign publishing.publications.pluginPublication
-//}
+signing {
+    sign publishing.publications.pluginPublication
+}
 
 pluginBundle {
     website = 'https://github.com/bulivlad/gitleaks-gradle#readme'

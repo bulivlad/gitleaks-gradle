@@ -25,11 +25,13 @@ class GitLeaksExtension {
 
     /**
      * Whether the scan should be skipped or not.
+     * The default is false
      */
     Boolean skip = false
 
     /**
      * Whether the plugin should fail when error occur.
+     * The default is false
      */
     Boolean failOnError = false
 
@@ -49,6 +51,12 @@ class GitLeaksExtension {
      * The default is JSON.
      */
     Format format = Format.JSON
+
+    /**
+     * Flag indicating whether the sensitive data like secrets found in code should be masked in the report
+     * The default is true
+     */
+    Boolean maskSensitiveData = true
 
     /**
      * The environment where the scan should run.
